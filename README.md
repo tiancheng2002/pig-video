@@ -1,6 +1,6 @@
 # IBo短视频平台
 
-项目体验地址：http://116.62.178.128:8080/
+> 作者：xiaozhu
 
 # 一、项目介绍
 
@@ -14,10 +14,6 @@ IBo是一个Web端短视频应用，致力于为用户提供交互友好、功�
 
 - 对用户上传的视频进行封面截取，用户没有上传封面的情况下利用ffmpeg自动将视频的第一帧作为视频封面
 
-## 技术栈
-
-SpringBoot、Mybatis-Plus、Redis、RabbitMQ、ElasticSearch、WebSocket、MySQL、Vue、Whisper、七牛云、星火大模型
-
 ## 模块说明
 
 video-framework（公共模块）：里面包含视频应用前台的后端和视频应用管理系统的后端所需要的依赖，还包括一些公共的类
@@ -25,6 +21,16 @@ video-framework（公共模块）：里面包含视频应用前台的后端和�
 video（前台后端模块）：里面包含所有视频应用前台的接口，包括视频的点赞、搜索、评论以及收藏等
 
 video-admin（后台管理后端模块）：里面包含所有视频拥有后台管理的接口，包括视频的审核，以及对标签的一系列操作等
+
+## 技术栈
+
+后端：SpringBoot、Mybatis-Plus、Redis、RabbitMQ、ElasticSearch、WebSocket、MySQL等
+
+前端：Vue3、Vuex、Axios、Element-Plus、Danmu等
+
+其他：七牛云存储、星火大模型、Whisper语音识别模型等
+
+## 架构图
 
 ## 运行说明
 
@@ -37,12 +43,11 @@ video-admin（后台管理后端模块）：里面包含所有视频拥有后台
 ElasticSearch提取链接：https://pan.baidu.com/s/15V9RITnLx_IueYrT3q3zIg?pwd=s0vi 
 						提取码：s0vi
 
-**备注：**运行ElasticSearch需要jdk环境
+**备注：** 运行ElasticSearch需要jdk环境
 
 4、用IDEA打开video-backend项目，等待依赖加载完成后，分别启动VideoApplication和VideoAdminApplication即可
 
 （要注意的是，Redis、ElasticSearch和MySQL的一些配置都不能出错）
-
 
 # 二、功能演示
 
