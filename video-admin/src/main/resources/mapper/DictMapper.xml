@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhu.mapper.DictMapper">
+
+    <select id="getDict" resultType="dict">
+        select * from sys_dict
+        <where>
+            <if test="dictCode!=null and dictCode!=''">
+                dict_code like #{dictCode}"%"
+            </if>
+            <if test="dictName!=null and dictName!=''">
+                and dict_name like "%"#{dictName}"%"
+            </if>
+        </where>
+    </select>
+
+    <select id="getDictDetail" resultMap="dictDetail">
+        select id,dict_code from sys_dict
+    </select>
+
+    <select id="getDictDataById" resultType="dictData">
+        select dict_id,label,value from sys_dict_data where dict_id = #{id}
+    </select>
+
+    <resultMap id="dictDetail" type="com.zhu.model.vo.DictVo">
+        <result property="code" column="dict_code"/>
+        <collection property="dictDataList" javaType="ArrayList" ofType="dictData" column="id"
+                    select="getDictDataById"/>
+    </resultMap>
+
+    <select id="getDictByCode" resultType="com.zhu.model.vo.DictTypeVo">
+        select b.label,b.value
+        from sys_dict a,sys_dict_data b
+        where a.id = b.dict_id and a.dict_code = #{dictCode}
+    </select>
+
+</mapper>

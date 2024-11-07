@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhu.mapper.UserFollowMapper">
+
+    <select id="gerUserFollowFans" resultType="user">
+        select b.uid,b.user_nickname,b.user_avatar,b.user_profile,b.user_role
+            from t_user_follow a join t_user b
+                on a.${type} = b.uid
+                <where>
+                    <if test="searchText!='' and searchText!=null">
+                        b.user_nickname like CONCAT('%',#{searchText},'%')
+                    </if>
+                    <if test="type=='user_id'">
+                        and follow_user_id = #{uid}
+                    </if>
+                    <if test="type=='follow_user_id'">
+                        and user_id = #{uid}
+                    </if>
+                </where>
+                        order by a.create_time desc
+    </select>
+
+</mapper>

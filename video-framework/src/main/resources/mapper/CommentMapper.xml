@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhu.mapper.CommentMapper">
+
+    <select id="getVideoComment" resultMap="videoComments">
+        select id,parent_id,respondent_name,address,content,likes,uid,video_id,create_time
+            from t_comment
+                where video_id = #{videoId} and parent_id = 0
+                    order by create_time desc
+    </select>
+
+    <select id="userInfo" resultType="user">
+        select uid,user_nickname,user_avatar
+            from t_user
+                where uid = #{uid}
+    </select>
+
+    <select id="getReply" resultMap="videoComments">
+        select id,parent_id,respondent_name,address,content,likes,uid,video_id,create_time
+            from t_comment
+                where parent_id = #{id}
+                    order by create_time desc
+    </select>
+
+    <select id="getTotal" resultType="java.lang.Integer">
+        select count(*) total from t_comment where parent_id = #{id}
+    </select>
+
+    <resultMap id="videoComments" type="com.zhu.vo.CommentVo">
+        <result column="id" property="id" />
+        <result column="parent_id" property="parentId" />
+        <result column="respondent_name" property="respondentName" />
+        <result column="uid" property="uid" />
+        <result column="address" property="address" />
+        <result column="content" property="content" />
+        <result column="create_time" property="createTime" />
+        <result column="likes" property="likes" />
+        <result column="video_id" property="videoId" />
+        <association property="user" select="userInfo" column="uid" />
+        <association property="replyVo" resultMap="replyInfo" column="id" />
+    </resultMap>
+
+    <resultMap id="replyInfo" type="com.zhu.vo.ReplyVo">
+        <result column="id" property="id" />
+        <association property="total" javaType="Integer" column="id" select="getTotal" />
+<!--        <collection property="replies" javaType="ArrayList" column="id" select="getReply" />-->
+    </resultMap>
+
+</mapper>

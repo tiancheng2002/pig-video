@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhu.mapper.MessageMapper">
+
+    <select id="getMessageVoList" resultMap="messageVoResult">
+        select * from t_message
+            where message_type in
+                <foreach item="type" collection="messageTypes" open="(" separator="," close=")">
+                    #{type}
+                </foreach>
+            and receiver_id = ${receiverId}
+                order by create_time desc
+    </select>
+
+    <select id="messageVideoDetail" resultType="com.zhu.vo.MessageVideoVo">
+        <if test="video_id!=null">
+            select video_id,description,video_pic from t_video_info where video_id = #{videoId}
+        </if>
+    </select>
+
+    <select id="getUserInfo" resultType="user">
+        select uid,user_nickname,user_avatar,user_role from t_user
+            where uid = #{sender_id}
+    </select>
+
+    <resultMap id="messageVoResult" type="com.zhu.vo.MessageVo">
+        <result property="senderId" column="sender_id" />
+        <result property="videoId" column="videoId" />
+        <association property="user" column="sender_id" select="getUserInfo" />
+        <association property="messageVideo" column="video_id" select="messageVideoDetail" />
+    </resultMap>
+
+</mapper>

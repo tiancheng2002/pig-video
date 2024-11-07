@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhu.mapper.UserMapper">
+
+    <select id="getUserVOList" resultMap="userVo">
+        select uid,user_email,user_nickname,user_profile,user_avatar,sex,user_role from t_user
+            where user_nickname like concat('%',#{searchKey},'%') or user_profile like concat('%',#{searchKey},'%')
+    </select>
+
+    <select id="getUserInfo" resultMap="authorResult">
+        select uid,user_email,user_nickname,user_profile,user_avatar,sex,user_role,is_hiddenFavour from t_user
+            where uid = #{uid}
+    </select>
+
+    <select id="getUserFollows" resultType="Long">
+        select count(1) from t_user_follow
+            where user_id = #{uid}
+    </select>
+
+    <select id="getUserFans" resultType="Long">
+        select count(1) from t_user_follow
+            where follow_user_id = #{uid}
+    </select>
+
+    <select id="getUserVideoFavour" resultType="Long">
+        select sum(favour_num) favourTotal from t_video_info
+            where uid = #{uid} and status = 1
+    </select>
+
+    <select id="getWorksNum" resultType="Long">
+        select count(1) worksNum from t_video_info
+            where uid = #{uid}
+    </select>
+
+    <select id="getFavoursNum" resultType="Long">
+        select count(1) favoursNum from t_video_favour
+            where uid = #{uid}
+    </select>
+
+    <resultMap id="userVo" type="com.zhu.vo.UserVo">
+        <result column="uid" property="uid" />
+        <result column="user_email" property="userEmail" />
+        <result column="user_nickname" property="userNickname" />
+        <result column="user_profile" property="userProfile" />
+        <result column="user_avatar" property="userAvatar" />
+        <result column="sex" property="sex" />
+        <result column="user_role" property="userRole" />
+        <association property="follows" column="uid" select="getUserFollows" />
+        <association property="fans" column="uid" select="getUserFans" />
+        <association property="favourTotal" column="uid" select="getUserVideoFavour" />
+    </resultMap>
+
+    <resultMap id="authorResult" extends="userVo" type="com.zhu.vo.AuthorInfoVo">
+        <result column="is_hiddenFavour" property="isHiddenFavour" />
+        <association property="worksNum" column="uid" select="getWorksNum" />
+<!--        <association property="favoursNum" column="uid" select="getFavoursNum" />-->
+    </resultMap>
+
+</mapper>

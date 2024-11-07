@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhu.mapper.UserBrowseMapper">
+
+    <select id="listBrowseVideoByPage" resultType="videoInfo">
+        select a.*
+            from t_video_info a
+                join (select video_id,browse_time from t_user_browse where uid = #{uid}) b
+                    on a.video_id = b.video_id
+                        order by b.browse_time desc
+    </select>
+
+</mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhu.mapper.UserRatingMapper">
+
+    <select id="getUserRatings" resultType="java.util.Map">
+        select uid,video_id,rate from t_user_rating group by uid
+    </select>
+
+    <select id="getRatingByUser" resultType="java.util.Map">
+        select video_id,rate from t_user_rating where uid = #{uid}
+    </select>
+
+    <resultMap id="myMap" type="java.util.Map">
+        <result property="uid" javaType="Long" column="uid"/>
+        <association property="map" javaType="Map" column="uid" select="getRatingByUser" />
+    </resultMap>
+
+</mapper>

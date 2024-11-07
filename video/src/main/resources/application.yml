@@ -1,0 +1,79 @@
+server:
+  port: 7519
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.zhu.model.entity
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/video?useUnicode=utf-8&useSSL=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 12345678
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  session:
+    timeout: 86400
+    store-type: redis
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+    timeout: 5000
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  elasticsearch:
+    uris: http://localhost:9200
+  mail:
+    username: 1849530179@qq.com
+    password: reolnvumrgzogbfd
+    host: smtp.qq.com
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
+  rabbitmq:
+    port: 5672
+    virtual-host: /
+    host: 127.0.0.1
+    username: guest
+    password: guest
+    listener:
+      simple:
+        prefetch: 1
+    publisher-confirm-type: correlated #获取confirm方法
+    publisher-returns: true #开启publish-return功能
+    template:
+      mandatory: true #定义消息路由失败策略，如果设置为false，则直接丢弃消息
+
+
+qiniuyun:
+  #accessKey密钥
+  accessKey: _niBnbOu8wA8JUrm4xnGjaf8GpEXBNzZ9IsWiTIE
+  #secretKey密钥
+  secretKey: wHO_R50lgWFtqi2eu6Wjzqx9xQ-haZYmx1Ak2qXh
+  #存储空间名称
+  bucket: shopzhu
+  #外链域名，即空间的默认域名
+  qiniu-image-domain: http://image.xiaozhu02.top/
+  #链接过期时间，单位为秒，-1表示不过期
+  expire-in-seconds: -1
+xunfei:
+  client:
+    appid: cf66c193
+    apiSecret: ZDk1OTI0YTZiMjA4MmRjZTc4ZGE1MWFm
+    apiKey: 531a6a7676717059d3dbbafe5df08d09

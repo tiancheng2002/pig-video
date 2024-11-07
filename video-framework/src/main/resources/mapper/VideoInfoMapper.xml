@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhu.mapper.VideoInfoMapper">
+
+    <select id="getVideoData" resultMap="videoData">
+        select * from t_video_info
+            where status = 1
+            <if test="type!=null and type!='' and type > 0">
+                and type_id = #{type}
+            </if>
+    </select>
+
+    <select id="getVideoById" resultMap="videoData">
+        select * from t_video_info
+            where status = 1 and video_id = #{videoId}
+    </select>
+
+    <!-- 获取用户详情 -->
+    <select id="userInfo" resultType="user">
+        select uid,user_nickname,user_avatar
+            from t_user
+                where uid = #{uid}
+    </select>
+
+    <!-- 获取当前视频的评论数量 -->
+    <select id="getCommentTotal" resultType="Long">
+        select count(1) from t_comment where video_id = #{video_id}
+    </select>
+
+    <select id="getVideoByFollow" resultType="videoInfo">
+        select video_id,description,video_url,video_pic,type_id,favour_num,uid,create_time
+            from t_video_info
+                where status = 1 and uid in (select follow_user_id
+                                from t_user_follow
+                                    where user_id = #{uid})
+                                        order by create_time desc
+    </select>
+
+    <resultMap id="videoData" type="com.zhu.vo.VideoVo">
+        <result column="video_id" property="videoId" />
+        <result column="uid" property="uid" />
+        <association property="commentNum" column="video_id" select="getCommentTotal" />
+        <association property="user" column="uid" select="userInfo" />
+    </resultMap>
+
+    <select id="randomVideo" resultType="videoInfo">
+        select * from t_video_info
+            where status = 1
+                order by RAND()
+    </select>
+
+</mapper>

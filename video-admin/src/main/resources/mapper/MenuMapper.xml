@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhu.mapper.MenuMapper">
+
+    <select id="getMenu" resultMap="menuData">
+        select *,#{myStatus} myStatus,#{menuName} menuName from sys_menu
+        <where>
+            <if test="menuId!=-1">
+                parent_id = #{menuId}
+            </if>
+            <if test="menuName!=null and menuName!=''">
+                and name like "%"#{menuName}"%"
+            </if>
+            <if test="myStatus!=null">
+                and status = #{myStatus}
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="menuData" type="com.zhu.model.vo.MenuVo">
+        <result property="menuId" column="menu_id" />
+        <collection property="children" ofType="ArrayList" column="{menuId=menu_Id,myStatus=myStatus,menuName=menuName}" select="getMenu" />
+    </resultMap>
+
+</mapper>
