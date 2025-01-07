@@ -34,8 +34,8 @@ spring:
   elasticsearch:
     uris: http://localhost:9200
   mail:
-    username: 1849530179@qq.com
-    password: reolnvumrgzogbfd
+    username: xxx@qq.com
+    password: 
     host: smtp.qq.com
     properties:
       mail:
@@ -63,17 +63,17 @@ spring:
 
 qiniuyun:
   #accessKey密钥
-  accessKey: _niBnbOu8wA8JUrm4xnGjaf8GpEXBNzZ9IsWiTIE
+  accessKey: 
   #secretKey密钥
-  secretKey: wHO_R50lgWFtqi2eu6Wjzqx9xQ-haZYmx1Ak2qXh
+  secretKey: 
   #存储空间名称
-  bucket: shopzhu
+  bucket: 
   #外链域名，即空间的默认域名
-  qiniu-image-domain: http://image.xiaozhu02.top/
+  qiniu-image-domain: 
   #链接过期时间，单位为秒，-1表示不过期
   expire-in-seconds: -1
 xunfei:
   client:
-    appid: cf66c193
-    apiSecret: ZDk1OTI0YTZiMjA4MmRjZTc4ZGE1MWFm
-    apiKey: 531a6a7676717059d3dbbafe5df08d09
+    appid: 
+    apiSecret: 
+    apiKey: 
